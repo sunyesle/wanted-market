@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+https://logback.qos.ch/manual
+appender : 로그의 출력 방식(콘솔 출력, 파일 출력 등등)
+encoder : 이벤트를 바이트 배열로 변환하고 해당 바이트 배열을 OutputStream에 쓰는 작업을 담당하는 요소
+pattern : 로그의 패턴
+
+root, logger : 설정한 appender를 참조하여 package와 level을 설정. root(최상위 로거), logger(특정 클래스나 패키지에 적용)
+
+property : 설정 파일에서 사용할 변수 값 선언
+-->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- Pattern -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(%5level) [%15.15t] [%X{request_id}] %clr(%-40.40logger{39}){cyan} : %m%n%wEx"/>
+    <!-- Request Thread Console Appender -->
+    <appender name="THREAD_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <included>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+                <charset>${CONSOLE_LOG_CHARSET}</charset>
+            </encoder>
+        </appender>
+    </included>
+
+    <springProfile name="default">
+        <logger additivity="false" level="INFO" name="com.sunyesle.wanted_market">
+            <appender-ref ref="THREAD_CONSOLE"/>
+        </logger>
+
+        <!-- Bootstrap class file -->
+        <logger additivity="false" level="INFO" name="com.sunyesle.wanted_market.WantedMarketApplication">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+</configuration>
