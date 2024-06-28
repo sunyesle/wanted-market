@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 public class LogConfig {
 
     @Bean
-    public FilterRegistrationBean<ReqResLoggingFilter> reqResLoggingFilterBean(ReqResLoggingFilter reqResLoggingFilter) {
+    public FilterRegistrationBean<ReqResLoggingFilter> reqResLoggingFilterBean() {
         FilterRegistrationBean<ReqResLoggingFilter> filterReg = new FilterRegistrationBean<>();
-        filterReg.setFilter(reqResLoggingFilter);
+        filterReg.setFilter(new ReqResLoggingFilter());
         filterReg.addUrlPatterns("/api/v1/*");
         return filterReg;
     }
