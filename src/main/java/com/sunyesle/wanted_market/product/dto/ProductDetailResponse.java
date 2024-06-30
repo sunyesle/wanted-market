@@ -1,9 +1,12 @@
 package com.sunyesle.wanted_market.product.dto;
 
-import com.sunyesle.wanted_market.product.Product;
 import com.sunyesle.wanted_market.global.enums.ProductStatus;
+import com.sunyesle.wanted_market.product.Product;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.Collections;
+import java.util.List;
 
 @Getter
 public class ProductDetailResponse {
@@ -13,6 +16,11 @@ public class ProductDetailResponse {
     private final Integer reservedStock;
     private final Integer stock;
     private final ProductStatus status;
+    private List<OfferInfo> offers;
+
+    public void setOffers(List<OfferInfo> offers) {
+        this.offers = offers;
+    }
 
     @Builder
     private ProductDetailResponse(Long id, String name, Integer price, Integer reservedStock, Integer stock, ProductStatus status) {
@@ -22,6 +30,7 @@ public class ProductDetailResponse {
         this.reservedStock = reservedStock;
         this.stock = stock;
         this.status = status;
+        this.offers = Collections.emptyList();
     }
 
     public static ProductDetailResponse of(Product product) {

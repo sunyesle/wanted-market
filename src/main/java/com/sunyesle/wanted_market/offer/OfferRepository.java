@@ -13,4 +13,7 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     @Query("select o from Offer o join Product p on p.id = o.productId and p.memberId = :memberId")
     List<Offer> findReceivedOffers(Long memberId);
+
+    @Query("select o from Offer o join Product p on p.id = o.productId and p.id = :id and (p.memberId = :memberId or o.buyerId = :memberId)")
+    List<Offer> findByProductIdAndMemberId(Long id, Long memberId);
 }

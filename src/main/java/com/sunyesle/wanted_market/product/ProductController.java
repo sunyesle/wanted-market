@@ -1,9 +1,10 @@
 package com.sunyesle.wanted_market.product;
 
+import com.sunyesle.wanted_market.global.security.CustomUserDetails;
+import com.sunyesle.wanted_market.global.security.LoginMember;
 import com.sunyesle.wanted_market.product.dto.ProductDetailResponse;
 import com.sunyesle.wanted_market.product.dto.ProductRequest;
 import com.sunyesle.wanted_market.product.dto.ProductResponse;
-import com.sunyesle.wanted_market.global.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDetailResponse> getProduct(@PathVariable Long id){
-        ProductDetailResponse response = productService.getProduct(id);
+    public ResponseEntity<ProductDetailResponse> getProduct(@LoginMember Long loginMemberId, @PathVariable Long id){
+        ProductDetailResponse response = productService.getProduct(id, loginMemberId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
