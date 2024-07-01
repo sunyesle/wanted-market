@@ -39,9 +39,23 @@ public class ProductSteps {
                 given()
                         .log().all()
                         .basePath("/api/v1/products/" + productId)
-                .when()
+                        .when()
                         .get()
-                .then()
+                        .then()
+                        .log().all()
+                        .extract();
+        return response;
+    }
+
+    public static ExtractableResponse<Response> 제품_조회_요청(Long productId, String token) {
+        ExtractableResponse<Response> response =
+                given()
+                        .log().all()
+                        .basePath("/api/v1/products/" + productId)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                        .when()
+                        .get()
+                        .then()
                         .log().all()
                         .extract();
         return response;
@@ -60,5 +74,10 @@ public class ProductSteps {
     public static void 제품_상태가_변경된다(ExtractableResponse<Response> 제품_조회_결과, ProductStatus productStatus) {
         ProductDetailResponse response = 제품_조회_결과.as(ProductDetailResponse.class);
         assertThat(response.getStatus()).isEqualTo(productStatus);
+    }
+
+    public static void 제품에_대한_요청_목록의_사이즈가_변경된다(ExtractableResponse<Response> 제품_조회_결과, int size) {
+        ProductDetailResponse response = 제품_조회_결과.as(ProductDetailResponse.class);
+        assertThat(response.getOffers().size()).isEqualTo(size);
     }
 }

@@ -1,6 +1,5 @@
 package com.sunyesle.wanted_market;
 
-import com.sunyesle.wanted_market.global.enums.OfferStatus;
 import com.sunyesle.wanted_market.global.enums.ProductStatus;
 import com.sunyesle.wanted_market.member.MemberRepository;
 import com.sunyesle.wanted_market.member.dto.SigninRequest;
@@ -71,10 +70,11 @@ class OfferAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 구매_요청(createOfferRequest, buyerToken);
 
         등록에_성공한다(response);
-        ExtractableResponse<Response> 제품_조회_결과 = 제품_조회_요청(savedProductId);
+        ExtractableResponse<Response> 제품_조회_결과 = 제품_조회_요청(savedProductId, buyerToken);
         제품_예약된_수량이_변경된다(제품_조회_결과, 0);
         제품_구매가능_수량이_변경된다(제품_조회_결과, 2);
         제품_상태가_변경된다(제품_조회_결과, ProductStatus.AVAILABLE);
+        제품에_대한_요청_목록의_사이즈가_변경된다(제품_조회_결과, 1);
     }
 
     @Test
